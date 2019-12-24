@@ -70,7 +70,6 @@ class SourcesController extends AppController
     {
         // autorender off for view
         $this->autoRender = false;
-
         //--------- Post request  -----------
         if ($this->request->is('post')) {
             // save logo
@@ -93,6 +92,8 @@ class SourcesController extends AppController
 
                 //resize image for thumbnail
                 $this->resize_image($old_path, $new_path, $path_info['extension'], 80, 80, $options = array());
+            } else {
+                $this->request->data['Source']['logo'] = '';
             }
         }
 

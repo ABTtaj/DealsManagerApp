@@ -32,8 +32,20 @@ class Category extends AppModel
      */
     var $validate = array(
         'name' => array(
-            'rule' => 'notempty',
+            'rule' => 'notblank',
             'required' => true,
+        )
+    );
+    
+    /**
+     * Relation to source 
+     *
+     * @var array
+     */
+    public $hasMany = array(
+        'Source' => array(
+            'className' => 'Source',
+            'foreignKey' => 'category_id',
         )
     );
 

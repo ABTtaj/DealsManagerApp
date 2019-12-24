@@ -16,49 +16,42 @@
                     <div class="main-box-body clearfix">
                         <div class="row">                           
                             <div class="col-sm-12 contact-view-box text-center">
-                                <h1><?= h($source['Source']['name']); ?></h1>                           
-                            </div>
-                        </div>                                            
-                        <div class="row">
-                            <div class="contact-box-heading">
-                                <span><strong><?php echo __('Deals'); ?></strong></span>
+                                <h1><?= h($category['Category']['name']); ?></h1>                           
                             </div>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table">
+                        <?php
+                        if(!empty($category['Source'])){
+                        ?>                                     
+                            <div class="row">
+                                <div class="contact-box-heading">
+                                    <span><strong><?php echo __('Sources'); ?></strong></span>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="text-center"><span><?php echo __('Name'); ?></span></th>
-                                        <th class="text-center"><span><?php echo __('Pipeline'); ?></span></th>
-                                        <th class="text-center"><span><?php echo __('Stage'); ?></span></th>
-                                        <th class="text-center"><span></span></th>
+                                        <th class="text-center"><?php echo __('Name'); ?></th>
+                                        <th class="text-center"><?php echo __('Color'); ?></th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php if($deals){
-                                    foreach($deals as $row): ?>
-                                    <tr>
-                                        <td class="text-center">
-                                           <a href="<?php echo $this->Html->url(array('controller' => 'deals', 'action' => 'view',h($row['Deal']['id']))); ?>">  <?= h($row['Deal']['name']); ?></a>
-                                        </td>                                       
-                                        <td class="text-center">
-                                            <?= h($row['Pipeline']['name']); ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= h($row['Stage']['name']); ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php  $this->Common->status($row['Deal']['status']); ?>
-                                        </td>
-                                    </tr>
-                                    <?php endforeach; 
-                                    } else {
-                                        echo '<tr><td colspan="4" class="text-center">'.__('No deal in this source').'</td></tr>';
-                                    }
-                                    ?>                                 
-                                </tbody>
-                            </table>
-                        </div>
+                                    <tbody>
+                                        <?php 
+                                            foreach($category['Source'] as $source){
+                                        ?>
+                                            <tr>
+                                                <td class="text-center"><?php echo $this->Html->link(h($source['name']), array('controller' => 'sources', 'action' => 'view', h($source['id'])), array('escape' => false, 'ref' => 'popover', 'data-content' => 'View Source')); ?></td>
+                                                <td class="text-center"><div class="btn" style="background-color:<?= h($source['color']) ?>"></div></td>
+                                            </tr>  
+                                        <?php
+                                            }
+                                        ?>                         
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php 
+                        }
+                        ?>
                     </div>
                 </div>
         </div>						

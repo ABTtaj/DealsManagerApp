@@ -32,12 +32,33 @@ class Source extends AppModel
      */
     var $validate = array(
         'name' => array(
-            'rule' => 'notempty',
+            'rule' => 'notblank',
             'required' => true,
         ),
         'color' => array(
-            'rule' => 'notempty',
+            'rule' => 'notblank',
             'required' => true
+        ),
+        'category_id' => array(
+            'notblank'=> array(
+                'rule' => 'notblank',
+                'required' => true
+            ),
+            'numeric'=> array(
+                'rule'=> 'numeric'
+            )
+        )
+    );
+    
+    /**
+     * Relation to category 
+     *
+     * @var array
+     */
+    public $belongsTo = array(
+        'Category' => array(
+            'className' => 'Category',
+            'foreignKey' => 'category_id'
         )
     );
 

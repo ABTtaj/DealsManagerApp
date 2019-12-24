@@ -1492,3 +1492,6 @@ blockquote {
 .fileinput-preview img{
     max-width: 100%;
 }
+.call-log-writer{
+    padding : 0px 20px;
+}

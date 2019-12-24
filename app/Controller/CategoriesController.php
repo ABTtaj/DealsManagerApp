@@ -16,7 +16,7 @@ class CategoriesController extends AppController
      *
      * @var array
      */
-    public $uses = array('Category','Source', 'SourceDeal', 'Deal');
+    public $uses = array('Category');
 
     /**
      * This controller uses following helpers
@@ -72,12 +72,12 @@ class CategoriesController extends AppController
         $this->autoRender = false;
 
         //save category
-        if ($this->SourceCategoyr->save($this->request->data)) {
+        if ($this->Category->save($this->request->data)) {
             //sucess message
             $this->Flash->success('Request has been completed.', array('key' => 'success', 'params' => array('class' => 'alert alert-info')));
             //redirect to category home page
             return $this->redirect(
-                    array('controller' => 'category', 'action' => 'index')
+                    array('controller' => 'categories', 'action' => 'index')
             );
         } else {
             //return json failure message
@@ -99,7 +99,7 @@ class CategoriesController extends AppController
         if ($this->request->is('post')) {
             //--------- Ajax request  -----------
             if ($this->RequestHandler->isAjax()) {
-                $this->layout = 'ajax';
+                $this->layout = 'ajax'; 
                 //common variables
                 $this->request->data['Category']['id'] = $this->request->data['pk'];
                 $this->request->data['Category']['name'] = $this->request->data['value'];
@@ -154,13 +154,10 @@ class CategoriesController extends AppController
      */
     public function view($id = null)
     {
-        $userId = ($this->checkAdmin()) ? '' : $this->Auth->user('id');
-        $userGId = $this->Auth->user('user_group_id');
-        $groupId = $this->Auth->user('group_id');
         //get category
         $category = $this->Category->getCategoryById($id);
         //set variables to view
-        $this->set(compact('category', 'deals'));
+        $this->set(compact('category'));
     }
 }
 

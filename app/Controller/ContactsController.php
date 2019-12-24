@@ -19,7 +19,7 @@ class ContactsController extends AppController
      *
      * @var array
      */
-    public $uses = array('Contact', 'ContactDeal', 'Deal', 'Company', 'Custom', 'CustomContact');
+    public $uses = array('Contact','RelatedContact','ContactDeal', 'Deal', 'Company', 'Custom', 'CustomContact');
 
     /**
      * This controller uses following helpers
@@ -109,7 +109,6 @@ class ContactsController extends AppController
         $this->autoRender = false;
         //check permissions
         $this->checkStaffPermission('12');
-
         //--------- Post request  -----------
         if ($this->request->is('post')) {
             $this->Contact->create();
@@ -128,6 +127,11 @@ class ContactsController extends AppController
                     $this->request->data['CustomContact']['value'] = $this->request->data['Custom']['value' . $row['Custom']['id']];
                     $this->CustomContact->save($this->request->data);
                 endforeach;
+                //related contacts
+                foreach ($this->request->data['RelatedContact'] as $relatedContact){
+                    $relatedContact['contact_id'] = $contactId;
+                    $this->RelatedContact->save($relatedContact);
+                }
                 //success message
                 $this->Flash->success('Request has been completed.', array('key' => 'success', 'params' => array('class' => 'alert alert-info')));
             } else {
@@ -169,6 +173,11 @@ class ContactsController extends AppController
                     $this->request->data['CustomContact']['value'] = $value;
                     $this->CustomContact->save($this->request->data);
                 endforeach;
+                //related contacts
+                foreach ($this->request->data['RelatedContact'] as $relatedContact){
+                    $relatedContact['contact_id'] = $id;
+                    $this->RelatedContact->save($relatedContact);
+                }
                 $this->Flash->success('Request has been completed.', array('key' => 'success', 'params' => array('class' => 'alert alert-info')));
             } else {
                 //failure message
@@ -365,7 +374,8 @@ class ContactsController extends AppController
         $userGId = $this->Auth->user('user_group_id');
         $groupId = $this->Auth->user('group_id');
         //get contact 
-        $contact = $this->Contact->getContactById($id);
+        $contact = $this->Contact->getContactById($id);            
+        $contact['RelatedContacts'] = $this->RelatedContact->getRelatedContactByContact($id);
         //get assing deal to contact
         $deals = $this->Deal->getDealsByContact($id, $userId, $userGId, $groupId);
         //get contact custom fields

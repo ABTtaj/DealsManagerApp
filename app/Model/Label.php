@@ -41,7 +41,7 @@ class Label extends AppModel
     public function getLabels($pipelineId)
     {
         //query
-        $result = $this->find('all', array('conditions' => array('Label.pipeline_id' => $pipelineId), 'fields' => array('Label.id', 'Label.name', 'Label.color')));
+        $result = $this->find('all', array('conditions' => array('Label.pipeline_id' => $pipelineId), 'fields' => array('Label.id', 'Label.name', 'Label.color','Label.icon')));
         return $result;
     }
 

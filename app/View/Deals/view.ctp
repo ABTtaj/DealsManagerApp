@@ -304,7 +304,20 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
+        <?php 
+            if(!empty($contacts)){
+        ?>
+            <div class="col-lg-4">
+                <?php 
+                    foreach( $contacts as $contact){
+                        echo $this->element('deal-contact',compact('contact'));
+                    }
+                ?>    
+            </div>
+        <?php 
+            }
+        ?>
+            <div class="<?= empty($contacts) ? 'col-lg-12' : 'col-lg-8'; ?>">
                 <div class="main-box clearfix">	
                     <div class="tabs-wrapper tabs-no-header">
                         <!-- Tabs -->
@@ -314,7 +327,7 @@
                                 <li><a data-toggle="tab" href="#tab-tasks" ><?php echo __('Tasks'); ?></a></li>
                                 <li><a data-toggle="tab" href="#tab-products" ><?php echo __('Products'); ?></a></li> 
                                 <li><a data-toggle="tab" href="#tab-sources" ><?php echo __('Sources'); ?></a></li>
-                                <li><a data-toggle="tab" href="#tab-contacts"><?php echo __('Contacts'); ?></a></li>
+                                <li><a data-toggle="tab" href="#tab-call"><?php echo __('Call Log'); ?></a></li>
                             <?php endif; ?>
                             <li><a data-toggle="tab" href="#tab-files"><?php echo __('Files'); ?></a></li>                           
                             <li><a data-toggle="tab" href="#tab-discussions" class="tab-load" data-type="1" data-action="discussions"><?php echo __('Discussion'); ?></a></li>
@@ -400,9 +413,59 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Contacts Tab -->
-                            <div id="tab-contacts" class="tab-pane fade">
-                                <?php echo $this->element('deal-contact'); ?>                               
+                            <!-- Call Log Tab -->
+                            <div id="tab-call" class="tab-pane fade">
+                                <?php
+                                if (!empty($calls)) :
+                                    foreach ($calls as $row) :
+                                        ?>   
+                                        <div class="panel panel-default">
+                                            <ul class="widget-users call-log-writer row">
+                                                <li class="col-md-12">
+                                                    <div class="img">
+                                                        <?php echo $this->Html->image('avatar/thumb/' . $row['User']['picture'], array('class' => 'img-responsive','ref' => 'popover', 'data-content'=> h($row['User']['first_name']) . ' ' . h($row['User']['last_name']))); ?>
+                                                    </div>
+                                                    <div class="details">
+                                                        <div class="name">
+                                                            <?= h($row['User']['first_name']); ?>
+                                                            <?= h($row['User']['last_name']); ?>
+                                                        </div>
+                                                        <div class="time">
+                                                            <i class="fa fa-envelope"></i> <?= h($row['User']['email']); ?>
+                                                        </div>
+                                                        <div class="type">
+                                                            <span class="label label-sm label-warning"><?php echo h($row['User']['job_title']); ?></span> 
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="panel-body">
+                                                <div>
+                                                <?= h($row['Call']['content']); ?>
+                                                </div>
+                                            </div>
+                                            <div class="panel-footer text-right text-muted">
+                                                <?= h($row['Call']['created']); ?>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    endforeach;
+                                endif;
+                                ?>
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <?php echo $this->Form->create('Call', array('url' => array('controller' => 'Calls', 'action' => 'add'), 'class' => 'vForm1')); ?>
+                                        <?php echo $this->Form->input('Call.deal_id', array('type' => 'hidden', 'value' => h($deal['Deal']['id']))); ?>
+                                        <div class="form-group">
+                                            <?php echo $this->Form->input('Call.content', array('type' => 'textarea', 'class' => 'notebook', 'label' => false, 'div' => false)); ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-success btn-sm pull-right" type="submit"><i class="fa fa-check-circle"></i> <?php echo __('Send'); ?></button>
+                                        </div>
+                                        <?php echo $this->Form->end(); ?>
+                                        <?php echo $this->Js->writeBuffer(); ?>
+                                    </div>
+                                </div>
                             </div>
                             <!-- Discussion Tab -->
                             <div id="tab-discussions" class="tab-pane fade"></div>

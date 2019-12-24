@@ -55,7 +55,7 @@
                         <?php if ($this->Common->isAdminPermission('5')) : ?>
                             <li class="<?= ($action == 'reports') ? 'active' : 'nav-noactive' ?>"><a href="<?php echo $this->Html->url(array('controller' => 'reports', 'action' => 'index')); ?>"><i class='fa fa-bar-chart-o'></i><span><?php echo __('Reports'); ?></span></a> </li>
                         <?php endif; ?>
-                        <li class="<?= ($action == 'pipelines' || $action == 'stages' || $action == 'labels' || $action == 'sources' || $action == 'products' || $action == 'exports' || $action == 'timelines') ? 'active' : 'nav-noactive' ?>">
+                        <li class="<?= ($action == 'pipelines' || $action == 'stages' || $action == 'labels' || $action == 'categories' || $action == 'sources' || $action == 'types' || $action == 'products' || $action == 'compaigns' || $action == 'webhooks' || $action == 'exports' || $action == 'timelines') ? 'active' : 'nav-noactive' ?>">
                             <a class="dropdown-toggle" href="#"><i class='fa fa-cog'></i><span><?php echo __('More'); ?></span><i class="fa fa-angle-right drop-icon"></i></a>
                             <ul class="submenu">
                                 <?php if ($this->Common->isAdminPermission('1')) : ?>
@@ -67,8 +67,12 @@
                                 <?php if ($this->Common->isAdminPermission('8')) : ?>
                                     <li><a class="<?= ($action == 'labels' && ($this->params['action'] == 'index')) ? 'active' : 'nav-noactive' ?>" href="<?php echo $this->Html->url(array('controller' => 'labels', 'action' => 'index')); ?>"><i class='fa fa-tags'></i><span> <?php echo __('Labels'); ?></span></a> </li>
                                 <?php endif; ?>
+                                <li><a class="<?= ($action == 'categories' && ($this->params['action'] == 'index')) ? 'active' : 'nav-noactive' ?>" href="<?php echo $this->Html->url(array('controller' => 'categories', 'action' => 'index')); ?>"><i class='fa fa-copy'></i> <?php echo __('Source Categories'); ?></a></li>
                                 <li><a class="<?= ($action == 'sources' && ($this->params['action'] == 'index')) ? 'active' : 'nav-noactive' ?>" href="<?php echo $this->Html->url(array('controller' => 'sources', 'action' => 'index')); ?>"><i class='fa fa-eye'></i> <?php echo __('Sources'); ?></a></li>
+                                <li><a class="<?= ($action == 'types' && ($this->params['action'] == 'index')) ? 'active' : 'nav-noactive' ?>" href="<?php echo $this->Html->url(array('controller' => 'types', 'action' => 'index')); ?>"><i class='fa fa-cart'></i> <?php echo __('Product Types'); ?></a></li>
                                 <li><a class="<?= ($action == 'products' && ($this->params['action'] == 'index')) ? 'active' : 'nav-noactive' ?>" href="<?php echo $this->Html->url(array('controller' => 'products', 'action' => 'index')); ?>"><i class='fa fa-gift'></i> <?php echo __('Products'); ?></a></li>
+                                <li><a class="<?= ($action == 'campaigns' && ($this->params['action'] == 'index')) ? 'active' : 'nav-noactive' ?>" href="<?php echo $this->Html->url(array('controller' => 'campaigns', 'action' => 'index')); ?>"><i class='fa fa-crosshairs'></i> <?php echo __('Campaigns'); ?></a></li>
+                                <li><a class="<?= ($action == 'webhooks' && ($this->params['action'] == 'index')) ? 'active' : 'nav-noactive' ?>" href="<?php echo $this->Html->url(array('controller' => 'webhooks', 'action' => 'index')); ?>"><i class='fa fa-crosshairs'></i> <?php echo __('Webhooks'); ?></a></li>
                                 <li><a class="<?= ($action == 'exports' && ($this->params['action'] == 'index')) ? 'active' : 'nav-noactive' ?>" href="<?php echo $this->Html->url(array('controller' => 'exports', 'action' => 'index')); ?>"><i class='fa fa-arrow-down'></i> <?php echo __('Exports'); ?></a></li>
                                 <?php if ($this->Common->isAdminPermission('6')) : ?>
                                     <li><a class="<?= ($action == 'timelines') ? 'active' : 'nav-noactive' ?>" href="<?php echo $this->Html->url(array('controller' => 'timelines', 'action' => 'index')); ?>"><i class='fa fa-history'></i> <span><?php echo __('Activity'); ?></span></a> </li>
@@ -114,12 +118,23 @@
                         <?php if ($this->Common->isStaffPermission('11')) : ?>
                             <li class="<?= ($action == 'contacts') ? 'active' : 'nav-noactive' ?>"><a href="<?php echo $this->Html->url(array('controller' => 'contacts', 'action' => 'index')); ?>"><i class='fa fa-users'></i><span><?php echo __('Contacts'); ?></span></a> </li>
                         <?php endif; ?>
-
+                        <?php if ($this->Common->isStaffPermission('41')) : ?>
+                            <li class="<?= ($action == 'categories') ? 'active' : 'nav-noactive' ?>"><a href="<?php echo $this->Html->url(array('controller' => 'categories', 'action' => 'index')); ?>"><i class='fa fa-copy'></i><span><?php echo __('Source Categories'); ?></span></a> </li>
+                        <?php endif; ?>
                         <?php if ($this->Common->isStaffPermission('41')) : ?>
                             <li class="<?= ($action == 'sources') ? 'active' : 'nav-noactive' ?>"><a href="<?php echo $this->Html->url(array('controller' => 'sources', 'action' => 'index')); ?>"><i class='fa fa-eye'></i><span><?php echo __('Sources'); ?></span></a> </li>
                         <?php endif; ?>
+                        <?php if ($this->Common->isStaffPermission('41')) : ?>
+                            <li class="<?= ($action == 'types') ? 'active' : 'nav-noactive' ?>"><a href="<?php echo $this->Html->url(array('controller' => 'types', 'action' => 'index')); ?>"><i class='fa fa-cart'></i><span><?php echo __('Product Types'); ?></span></a> </li>
+                        <?php endif; ?>
                         <?php if ($this->Common->isStaffPermission('31')) : ?>
                             <li class="<?= ($action == 'products') ? 'active' : 'nav-noactive' ?>"><a href="<?php echo $this->Html->url(array('controller' => 'products', 'action' => 'index')); ?>"><i class='fa fa-gift'></i><span><?php echo __('Products'); ?></span></a></li>
+                        <?php endif; ?>
+                        <?php if ($this->Common->isStaffPermission('31')) : ?>
+                            <li class="<?= ($action == 'campaigns') ? 'active' : 'nav-noactive' ?>"><a href="<?php echo $this->Html->url(array('controller' => 'campaigns', 'action' => 'index')); ?>"><i class='fa fa-crosshairs'></i><span><?php echo __('Campaigns'); ?></span></a></li>
+                        <?php endif; ?>
+                        <?php if ($this->Common->isStaffPermission('31')) : ?>
+                            <li class="<?= ($action == 'webhooks') ? 'active' : 'nav-noactive' ?>"><a href="<?php echo $this->Html->url(array('controller' => 'webhooks', 'action' => 'index')); ?>"><i class='fa fa-crosshairs'></i><span><?php echo __('Webhooks'); ?></span></a></li>
                         <?php endif; ?>
                         <li class="<?= ($action == 'messages') ? 'active' : 'nav-noactive' ?>"><a href="<?php echo $this->Html->url(array('controller' => 'messages', 'action' => 'index')); ?>"><i class='fa fa-envelope'></i><span><?php echo __('Messages'); ?></span></a></li>
                         <li class="<?= ($action == 'tickets') ? 'active' : 'nav-noactive' ?>"><a href="<?php echo $this->Html->url(array('controller' => 'tickets', 'action' => 'index')); ?>"><i class='fa fa-ticket'></i><span><?php echo __('Tickets'); ?></span></a></li>

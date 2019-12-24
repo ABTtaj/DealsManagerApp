@@ -20,19 +20,22 @@
             <?php echo $this->Form->create('Pipeline', array('type'=>'file','url' => array('controller' => 'Pipelines', 'action' => 'add'), 'inputDefaults' => array('label' => false, 'div' => false), 'class' => 'vForm')); ?>
             <div class="modal-body">													
                 <div class="form-group">
+                    <label><?php echo __('Name'); ?></label>
                     <?php echo $this->Form->input('Pipeline.name', array('type' => 'text', 'class' => 'form-control input-inline input-medium', 'Placeholder' => __('Pipeline Name'), 'label' => false)); ?>	
                 </div>													
                 <div class="form-group">
+                    <label><?php echo __('Color'); ?></label>
                     <?php echo $this->Form->input('Pipeline.color', array('type' => 'color', 'class' => 'form-control input-inline input-medium', 'Placeholder' => __('Pipeline Color'), 'label' => false)); ?>	
                 </div>
                 <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <label><?php echo __('Logo'); ?></label>
                     <div class="fileinput-preview fileinput-exists">
                     </div>
                     <div>
                         <span class="btn default btn-file">
                             <span class="fileinput-new"><?php echo __('Select image'); ?></span>
                             <span class="fileinput-exists"><?php echo __('Change'); ?></span>
-                            <input type="file" name="data[Pipeline][logo]" >
+                            <input type="file" name="data[Pipeline][logo]" accept="image/*">
                         </span>
                         <a href="#" class="btn default fileinput-exists" data-dismiss="fileinput"><?php echo __('Remove'); ?></a>
                     </div>	

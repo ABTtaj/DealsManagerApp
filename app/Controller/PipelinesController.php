@@ -100,6 +100,8 @@ class PipelinesController extends AppController
 
                 //resize image for thumbnail
                 $this->resize_image($old_path, $new_path, $path_info['extension'], 80, 80, $options = array());
+            }else{
+                $this->request->data['Pipeline']['logo'] = null;
             }
             //save pipeline data
             if ($this->Pipeline->save($this->request->data)) {
@@ -111,6 +113,7 @@ class PipelinesController extends AppController
                     $this->Stage->create();
                     $this->request->data['Stage']['name'] = $stage;
                     $this->request->data['Stage']['position'] = $i;
+                    $this->request->data['Stage']['color'] = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);;
                     $this->Stage->saveAll($this->request->data);
                     $i++;
                 endforeach;

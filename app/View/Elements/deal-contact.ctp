@@ -1,79 +1,156 @@
 <?php
 /**
- *  List contacts in deal details page.
+ * View for Contact details page
  * 
  * @author:   AnkkSoft.com
  * @Copyright: AnkkSoft 2019
- * @Website:   https://www.ankksoft.com
+ * @Website:   http://www.ankksoft.com
  * @CodeCanyon User:  https://codecanyon.net/user/codeloop 
  */
 
 ?>
-<div class="row">
-    <div class="input-group col-md-12">
-        <?php echo $this->Form->input('Contact.name', array('type' => 'text', 'class' => 'form-control input-lg typeahead', 'data-provide' => 'typeahead', 'label' => false, 'div' => false, 'Placeholder' => __('Search Contact'), 'id' => 'contacts', 'label' => '', 'autocomplete' => 'off')); ?>
-    </div>
-</div>
-<div class="row top-margin contact-list">
-    <?php
-    if (!empty($contacts)) :
-        foreach ($contacts as $row) :
 
-            ?>
-            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="<?php echo 'row' . h($row['Contact']['id']); ?>">
-                <div class="main-box clearfix profile-box-contact">
-                    <div class="main-box-body clearfix">
-                        <a href="<?php echo $this->webroot; ?>contacts/view/<?= h($row['Contact']['id']); ?>">
-                            <div class="profile-box-header contact-box-list clearfix">
-                                <div class="col-sm-6">
-                                    <div class="text-center">
-                                        <?php $cImage = ($row['Contact']['picture']) ? $row['Contact']['picture'] : 'user.png'; ?>    
-                                        <?= $this->Html->image('contact/thumb/' . $cImage, array('class' => 'img-circle m-t-xs ')); ?>
-                                        <div class="m-t-xs font-bold"><h5><?= h($row['Contact']['title']); ?></h5></div>
+<!-- Content -->
+<div class="row company-view">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="main-box no-header clearfix">	
+                <div class="main-box-body clearfix">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="clearfix">                               
+                                <h1 class="pull-left"> 
+                                    <?php $cImage = ($contact['Contact']['picture']) ? $contact['Contact']['picture'] : 'user.png'; ?>    
+                                    <?= $this->Html->image('contact/thumb/' . $cImage); ?> 
+                                    <?= h($contact['Contact']['name']); ?>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">                     
+                        <div class="col-lg-12">
+                            <dl class="dl-horizontal">
+                                <dt><?php echo __('Title'); ?>:</dt> <dd><span class="label label-warning"><?= h($contact['Contact']['title']); ?></span></dd>
+                                <dt><?php echo __('Email'); ?>:</dt> <dd><?= h($contact['Contact']['email']); ?></dd>
+                                <dt><?php echo __('Phone'); ?>:</dt> <dd><?= h($contact['Contact']['phone']); ?></dd>
+                                <dt><?php echo __('Website'); ?>:</dt> <dd> <?= h($contact['Contact']['website']); ?> </dd>
+                                <dt><?php echo __('Address'); ?>:</dt> <dd>  <?= h($contact['Contact']['address']); ?></dd>
+                                <dt><?php echo __('City'); ?>:</dt> <dd> <?= h($contact['Contact']['city']); ?> </dd>
+                                <dt><?php echo __('State'); ?>:</dt> <dd> <?= h($contact['Contact']['state']); ?> </dd>
+                                <dt><?php echo __('Zip Code'); ?>:</dt> <dd><?= h($contact['Contact']['zip_code']); ?> </dd>
+                                <dt><?php echo __('Country'); ?>:</dt> <dd> <?= h($contact['Contact']['country']); ?> </dd>
+                                <dt><?php echo __('Location'); ?>:</dt> <dd> <?= h($contact['Contact']['location']); ?> </dd>
+                                <!-- Custom Fields -->
+                                <?php foreach ($custom as $row): ?>
+                                    <dt><?php echo h($row['Custom']['name']); ?>:</dt> <dd> 	<?php echo h($row['CustomContact']['value']); ?> </dd>                     
+                                <?php endforeach; ?>
+                            </dl>
+                        </div>
+                        <div class="col-lg-12">
+                            <ul class="company-view-social">
+                                <?php if (!empty($contact['Contact']['skype'])) : ?> <li> <a href="<?php echo h($contact['Contact']['skype']); ?>" target="_blank"><i class="fa fa-skype fa-3x"></i>  </a></li><?php endif; ?>       
+                                <?php if (!empty($contact['Contact']['facebook'])) : ?><li><a href="<?php echo h($contact['Contact']['facebook']); ?>" target="_blank"><i class="fa fa-facebook-square fa-3x"></i> </a> </li><?php endif; ?>
+                                <?php if (!empty($contact['Contact']['twitter'])) : ?><li><a href="<?php echo h($contact['Contact']['twitter']); ?>" target="_blank"><i class="fa fa-twitter-square fa-3x"></i>  </a></li><?php endif; ?>
+                                <?php if (!empty($contact['Contact']['google_plus'])) : ?><li><a href="<?php echo h($contact['Contact']['google_plus']); ?>" target="_blank"><i class="fa fa-google-plus-square fa-3x"></i> </a></li><?php endif; ?>
+                                <?php if (!empty($contact['Contact']['linkedIn'])) : ?><li><a href="<?php echo h($contact['Contact']['linkedIn']); ?>" target="_blank"><i class="fa fa-linkedin-square fa-3x"></i>  </a></li><?php endif; ?>                          
+                                <?php if (!empty($contact['Contact']['youtube'])) : ?><li><a href="<?php echo h($contact['Contact']['youtube']); ?>" target="_blank"><i class="fa fa-youtube-square fa-3x"></i> </a></li><?php endif; ?>
+                                <?php if (!empty($contact['Contact']['pinterest'])) : ?><li><a href="<?php echo h($contact['Contact']['pinterest']); ?>" target="_blank"><i class="fa fa-pinterest-square fa-3x"></i> </a></li><?php endif; ?>   
+                                <?php if (!empty($contact['Contact']['tumblr'])) : ?><li><a href="<?php echo h($contact['Contact']['tumblr']); ?>" target="_blank"><i class="fa fa-tumblr-square fa-3x"></i> </a></li><?php endif; ?>   
+                                <?php if (!empty($contact['Contact']['github'])) : ?><li><a href="<?php echo h($contact['Contact']['github']); ?>" target="_blank"><i class="fa fa-github-square fa-3x"></i> </a></li><?php endif; ?>  
+                                <?php if (!empty($contact['Contact']['instagram'])) : ?><li><a href="<?php echo h($contact['Contact']['instagram']); ?>" target="_blank"><i class="fa  fa-instagram fa-3x"></i> </a></li><?php endif; ?>    
+                                <?php if (!empty($contact['Contact']['digg'])) : ?><li><a href="<?php echo h($contact['Contact']['digg']); ?>" target="_blank"><i class="fa fa-digg fa-3x"></i> </a></li><?php endif; ?> 
+                            </ul>   
+                        </div>    
+                    </div>
+                    <div class="row m-t-sm">
+                        <div class="col-lg-12">
+                            <div class="panel blank-panel">
+                                <div class="panel-heading">
+                                    <div class="panel-options">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"><?php echo __('Deals'); ?></a></li>
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <h2><?php echo $row['Contact']['name']; ?></h2>
-                                    <ul class="contact-details">                                   
-                                        <li>
-                                            <?php echo ($row['Contact']['email']) ? '<i class="fa fa-envelope"></i> ' . h($row['Contact']['email']) : ''; ?>
-                                        </li>
-                                        <li>
-                                            <?php echo ($row['Contact']['phone']) ? ' <i class="fa fa-phone"></i> ' . h($row['Contact']['phone']) : ''; ?>
-                                        </li>
-                                        <li>
-                                            <?php echo ($row['Contact']['location']) ? ' <i class="fa fa-map-marker"></i> ' . h($row['Contact']['location']) : ''; ?>
-                                        </li>
-                                        <li>
-                                            <?php echo ($row['Contact']['address']) ? ' <i class="fa fa-home"></i> ' . h($row['Contact']['address']) : ''; ?>
-                                        </li>
-                                    </ul>
+                                <div class="panel-body">
+                                    <div class="tab-content">
+                                        <div id="tab-1" class="tab-pane active">
+                                            <table class="table table-striped user-list">
+                                                <thead>
+                                                    <tr>
+                                                        <th><?php echo __('Name'); ?></th>
+                                                        <th><?php echo __('Pipeline'); ?></th>
+                                                        <th><?php echo __('Stage'); ?></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($contact['Deals'] as $row) : ?>
+                                                        <tr>
+                                                            <td><a href="<?php echo $this->Html->url(array('controller' => 'deals', 'action' => 'view', h($row['Deal']['id']))); ?>">  <?= h($row['Deal']['name']); ?></a></td>
+                                                            <td><?= h($row['Pipeline']['name']); ?></td>
+                                                            <td><?= h($row['Stage']['name']); ?></td>
+                                                            <td><?php $this->Common->status($row['Deal']['status']); ?></td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="contact-box-footer clearfix">
-                                <div class="col-md-3 col-xs-3 border-right contact-social">
-                                    <a href="<?php echo ($row['Contact']['facebook']) ? 'http://' . h($row['Contact']['facebook']) : '#'; ?>"> <i class="fa fa-facebook-square"></i>  </a>
-                                </div>
-                                <div class="col-md-3 col-xs-3 border-right contact-social">
-                                    <a href="<?php echo ($row['Contact']['twitter']) ? 'http://' . h($row['Contact']['twitter']) : '#'; ?>">  <i class="fa fa-twitter-square"></i>  </a>
-                                </div>
-                                <div class="col-md-3 col-xs-3 border-right contact-social">
-                                    <a href="<?php echo ($row['Contact']['linkedIn']) ? 'http://' . h($row['Contact']['linkedIn']) : '#'; ?>">  <i class="fa fa-linkedin-square"></i> </a>  
-                                </div>
-                                <div class="col-md-3 col-xs-3 contact-social">
-                                    <a href="<?php echo ($row['Contact']['skype']) ? 'http://' . h($row['Contact']['skype']) : '#'; ?>">  <i class="fa fa-skype"></i>  </a>
-                                    <?php if ($this->Common->isAdmin()): ?>
-                                        <a  href="#" class="contact-delete" data-toggle="modal" data-target="#delM" data-title="<?php echo __('Delete Contact'); ?>" data-action="contacts" data-id="<?= h($row['Contact']['id']); ?>"><i class="fa fa-trash-o"></i></a>
-                                        <?php endif; ?>
-                                </div>
-                            </div>   
-                        </a>
+                        </div>
                     </div>
+                    <?php 
+                        if(!empty($contact['RelatedContacts'])){
+                    ?>
+                        <div class="row top-margin contact-list">
+                            <?php 
+                                foreach($contact['RelatedContacts'] as $row){
+                            ?>            
+                                <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="<?php echo 'row' . h($row['Contact']['id']); ?>">
+                                    <div class="main-box clearfix profile-box-contact">
+                                        <div class="main-box-body clearfix">
+                                            <div class="profile-box-header contact-box-list clearfix">
+                                                <div class="col-sm-6">
+                                                    <div class="text-center">
+                                                        <?= $this->Html->image('contact/thumb/' . 'user.png', array('class' => 'img-circle m-t-xs ')); ?>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <h2><?php echo $row['RelatedContact']['name']; ?></h2>
+                                                    <ul class="contact-details">                                   
+                                                        <li>
+                                                            <?php echo ($row['RelatedContact']['email']) ? '<i class="fa fa-envelope"></i> ' . h($row['RelatedContact']['email']) : ''; ?>
+                                                        </li>
+                                                        <li>
+                                                            <?php echo ($row['RelatedContact']['phone']) ? ' <i class="fa fa-phone"></i> ' . h($row['RelatedContact']['phone']) : ''; ?>
+                                                        </li>
+                                                        <li>
+                                                            <?php echo ($row['RelatedContact']['location']) ? ' <i class="fa fa-map-marker"></i> ' . h($row['RelatedContact']['location']) : ''; ?>
+                                                        </li>
+                                                        <li>
+                                                            <?php echo ($row['RelatedContact']['address']) ? ' <i class="fa fa-home"></i> ' . h($row['RelatedContact']['address']) : ''; ?>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>  
+                                        </div>
+                                    </div>	
+                                </div>
+                            <?php
+                                }
+                            ?>		
+                        </div>	
+                    <?php
+                        }
+                    ?>
                 </div>
             </div>
-            <?php
-        endforeach;
-    endif;
-
-    ?>
+        </div>		
+    </div>
 </div>
+<!--Theme Jquery -->
+<?php echo $this->Html->css('jasny-bootstrap.min.css'); ?>
+<?php echo $this->Html->script('jasny-bootstrap.min.js'); ?>
+<!--End Theme Jquery -->

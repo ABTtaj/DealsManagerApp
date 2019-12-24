@@ -16,7 +16,7 @@ class ProductsController extends AppController
      *
      * @var array
      */
-    public $uses = array('Product', 'ProductDeal', 'Deal');
+    public $uses = array('Product','Type','ProductDeal', 'Deal');
 
     /**
      * This controller uses following helpers
@@ -62,8 +62,11 @@ class ProductsController extends AppController
         //get all products
         $products = $this->Product->getAllProducts();
 
+        //get all products
+        $types = $this->Type->getAllTypes();
+
         //set product variable for view
-        $this->set(compact('products'));
+        $this->set(compact('products','types'));
     }
 
     /**
@@ -77,11 +80,42 @@ class ProductsController extends AppController
         $this->autoRender = false;
         //check permissions
         $this->checkStaffPermission('32');
+        //manage custom fields
+        $fields = array();
+        foreach($this->request->data['Fields'] as $name => $value){
+            $type="text";
+            if(is_array($value)){
+                $type = "file";
+                // save files
+                if (!empty($value['tmp_name']) && is_uploaded_file($value['tmp_name'])) {
+                    $path_info = pathinfo($value['name']);
+                    chmod($value['tmp_name'], 0644);
+                    $photo = time() . mt_rand() . "." . $path_info['extension'];
+
+                    //path to products files directory
+                    $fullpath = WWW_ROOT . "files/products";
+                    if (!is_dir($fullpath)) {
+                        mkdir($fullpath, 0777, true);
+                    }
+                    //save product file
+                    move_uploaded_file($value['tmp_name'], $fullpath . DS . $photo);
+                    $value = $photo;
+                    $old_path = $fullpath . DS . $photo;
+                    $new_path = WWW_ROOT . "files/products" . DS . $photo; 
+                }else{
+                    $value = '';
+                }
+            }
+            $fields[$name] = compact('type','value');
+        }
+        $this->request->data['Product']['custom_fields'] = json_encode($fields);
+        
         //--------- Post request  -----------
         if ($this->request->is('post')) {
             $this->Product->create();
             //save product
             if ($this->Product->save($this->request->data)) {
+                $productId = $this->Product->getLastInsertId();
                 //success message
                 $this->Flash->success(__('Request has been completed.'), array('key' => 'success', 'params' => array('class' => 'alert alert-info')));
             } else {
@@ -150,11 +184,20 @@ class ProductsController extends AppController
         if (!empty($productId)) {
             //--------- Post/Ajax request  -----------
             if ($this->request->isPost() || $this->RequestHandler->isAjax()) {
+                //get product files
+                $files = $this->Product->getProductFilesById($productId);
                 //delete product
                 $success = $this->Product->delete($productId, false);
                 if ($success) {
                     //delete assign product to deals
-                    $this->ProductDeal->deleteAll(array('ProductDeal.product_id' => $productId));
+                    $this->ProductDeal->deleteAll(array('ProductDeal.product_id' => $productId));        
+                    //remove product files
+                    foreach($files as $file){
+                        $fullpath = WWW_ROOT . "files/products";
+                        if (!empty($file) && file_exists($fullpath . DS . $file)) {
+                            unlink($fullpath . DS . $file);
+                        }
+                    }
                     //return json success message
                     $response = array('bug' => 0, 'msg' => 'success', 'vId' => $productId);
                     return json_encode($response);

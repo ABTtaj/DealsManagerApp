@@ -32,6 +32,19 @@ class Product extends AppModel
      */
     var $validate = array();
 
+    
+    /**
+     * Relation to type 
+     *
+     * @var array
+     */
+    public $belongsTo = array(
+        'Type' => array(
+            'className' => 'Type',
+            'foreignKey' => 'type_id'
+        )
+    );
+
     /**
      * This function is used to get all products
      *
@@ -55,6 +68,25 @@ class Product extends AppModel
     {
         //query
         $result = $this->find('first', array('conditions' => array('Product.id' => $productId)));
+        return $result;
+    }
+
+    /**
+     * This function is used to get product files by product id
+     *
+     * @access public
+     * @return array
+     */
+    public function getProductFilesById($productId)
+    {
+        $product = $this->find('first', array('conditions' => array('Product.id' => $productId)));
+        $customFields = json_decode($product['Product']['custom_fields'],true);
+        $result = array();
+        foreach($customFields as $customField => $details){
+            if($details['type'] == 'file'){
+                array_push($result,$details['value']);
+            }
+        }
         return $result;
     }
 

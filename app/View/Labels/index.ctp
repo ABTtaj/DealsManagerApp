@@ -20,7 +20,7 @@
             <?php echo $this->Form->create('Label', array('url' => array('controller' => 'Labels', 'action' => 'add'), 'inputDefaults' => array('label' => false, 'div' => false), 'class' => 'vForm')); ?>
             <div class="modal-body">													
                 <div class="form-group">
-                    <label></label>
+                    <label><?php echo __('Name'); ?></label>
                     <?php echo $this->Form->input('Label.name', array('type' => 'text', 'class' => 'form-control input-inline input-medium input-color', 'Placeholder' => __('Label Name'), 'label' => false)); ?>	
                 </div>
                 <div class="form-group">
@@ -28,6 +28,9 @@
                     <?php echo $this->Form->input('Label.pipeline_id', array('type' => 'select', 'class' => 'select-box-search full-width', 'options' => array($this->Common->getPipelineList()), 'label' => false)); ?>	
                 </div>
                 <div class="form-group" data-toggle="buttons">
+                    <div>
+                        <label><?php echo __('Icon'); ?></label>
+                    </div>
                     <label class="btn active"><i class="fa fa-filter"></i><input type="radio" name="data[Label][icon]" value="fa fa-filter" checked></label>
                     <label class="btn"><i class="fa fa-instagram"></i><input type="radio" name="data[Label][icon]" value="fa fa-instagram"></label>
                     <label class="btn"><i class="fa fa-apple"></i><input type="radio" name="data[Label][icon]" value="fa fa-apple"></label>
@@ -40,6 +43,9 @@
                     <label class="btn"><i class="fa fa-dashboard"></i><input type="radio" name="data[Label][icon]" value="fa fa-dashboard"></label>
                 </div>
                 <div class="form-group color-button" data-toggle="buttons">
+                    <div>
+                        <label><?php echo __('Color'); ?></label>
+                    </div>
                     <label class="btn btn-1 active"><input type="radio" name="data[Label][color]" value="label-one" checked></label>
                     <label class="btn btn-2"><input type="radio" name="data[Label][color]" value="label-two"></label>
                     <label class="btn btn-3"><input type="radio" name="data[Label][color]" value="label-three"></label>
@@ -132,7 +138,7 @@
                                             <tbody>
                                                 <?php foreach ($row['Label'] as $label): ?>
                                                     <tr id="item-<?= h($label['Label']['id']); ?>">
-                                                        <td><span class="label <?= h($label['Label']['color']); ?>"><a data-type="text" data-pk="<?= h($label['Label']['id']); ?>" data-url="labels/edit"  class="vEdit"  ref="popover" data-content="Edit Label Name"><?= h($label['Label']['name']); ?></a></span></td>
+                                                        <td><i class="<?= h($label['Label']['icon']); ?>"></i>&nbsp;&nbsp;<span class="label <?= h($label['Label']['color']); ?>"><a data-type="text" data-pk="<?= h($label['Label']['id']); ?>" data-url="labels/edit"  class="vEdit"  ref="popover" data-content="Edit Label Name"><?= h($label['Label']['name']); ?></a></span></td>
                                                         <td> 
                                                             <a class="table-link danger" href="#" data-toggle="modal" data-target="#delLabelM" onclick="fieldU('LabelId',<?= h($label['Label']['id']); ?>)"  ref="popover" data-content="Delete Label">
                                                                 <i class="fa fa-trash-o"></i>

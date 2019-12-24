@@ -18,7 +18,27 @@
                             <div class="col-sm-12 contact-view-box text-center">
                                 <h1><?= h($source['Source']['name']); ?></h1>                           
                             </div>
-                        </div>                                            
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"><?= __('Name') ?></th>
+                                        <th class="text-center"><?= __('Category') ?></th>
+                                        <th class="text-center"><?= __('Color') ?></th>
+                                        <th class="text-center"><?= __('Logo') ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td class="text-center"><?= h($source['Source']['name']) ?></td>
+                                            <td class="text-center"><?= h($source['Category']['name']) ?></td>
+                                            <td class="text-center"><div class="btn" style="background-color:<?= h($source['Source']['color']) ?>"></div></td>
+                                            <td class="text-center"><?= empty($source['Source']['logo']) ? '-' : $this->Html->image('source/' . h($source['Source']['logo']), array('class' => 'img-responsive center-block')); ?></td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="row">
                             <div class="contact-box-heading">
                                 <span><strong><?php echo __('Deals'); ?></strong></span>

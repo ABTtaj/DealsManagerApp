@@ -21,19 +21,26 @@
                 <?php echo $this->Form->create('Source', array('type' => 'file', 'url' => array('controller' => 'Sources', 'action' => 'add'), 'inputDefaults' => array('label' => false, 'div' => false), 'class' => 'vForm')); ?>
                 <div class="modal-body">													
                     <div class="form-group">
+                        <label><?php echo __('Name'); ?></label>
                         <?php echo $this->Form->input('Source.name', array('type' => 'text', 'class' => 'form-control input-inline input-medium', 'Placeholder' => __('Source Name'))); ?>	
-                    </div>													
+                    </div>		
                     <div class="form-group">
+                        <label><?php echo __('Category'); ?></label>
+                        <?php echo $this->Form->input('Source.category_id', array('type' => 'select', 'class' => 'select-box-search full-width', 'options' => array($this->Common->getCategoriesList()), 'label' => false)); ?>	
+                    </div>											
+                    <div class="form-group">
+                        <label><?php echo __('Color'); ?></label>
                         <?php echo $this->Form->input('Source.color', array('type' => 'color', 'class' => 'form-control input-inline input-medium', 'Placeholder' => __('Source Color'))); ?>	
                     </div>	
                     <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <label><?php echo __('Logo'); ?></label>
                         <div class="fileinput-preview fileinput-exists">
                         </div>
                         <div>
                             <span class="btn default btn-file">
                                 <span class="fileinput-new"><?php echo __('Select image'); ?></span>
                                 <span class="fileinput-exists"><?php echo __('Change'); ?></span>
-                                <input type="file" name="data[Source][logo]" >
+                                <input type="file" name="data[Source][logo]" accept="image/*" >
                             </span>
                             <a href="#" class="btn default fileinput-exists" data-dismiss="fileinput"><?php echo __('Remove'); ?></a>
                         </div>	

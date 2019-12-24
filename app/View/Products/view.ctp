@@ -18,17 +18,40 @@
                         <div class="col-sm-12 contact-view-box text-center">
                             <h1><?= h($Product['Product']['name']); ?></h1>                           
                         </div>
-                        <table class="table">
-                            <tbody><tr>
-                                    <td><strong><?php echo __('Name'); ?></strong></td>
-                                    <td><?= h($Product['Product']['name']); ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong><?php echo __('Price'); ?>Price</strong></td>
-                                    <td><?= h($this->Session->read('Auth.User.currency_symbol')); ?><?= h($Product['Product']['price']); ?></td>
-                                </tr>       
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"><?= __('Name') ?></th>
+                                        <th class="text-center"><?= __('Price') ?></th>
+                                        <th class="text-center"><?= __('Quantity') ?></th>
+                                        <th class="text-center"><?= __('Type') ?></th>
+                                        <?php
+                                            foreach(json_decode($Product['Product']['custom_fields'],true) as $customField=>$value){
+                                        ?>
+                                            <th class="text-center"><?= h($customField); ?></th>
+                                        <?php
+                                            }
+                                        ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td class="text-center"><?= h($Product['Product']['name']) ?></td>
+                                            <td class="text-center"><?= h($Product['Product']['price']) ?></td>
+                                            <td class="text-center"><?= is_null($Product['Product']['quantity']) ? '-' : h($Product['Product']['quantity']);?></td>
+                                            <td class="text-center"><?= h($Product['Type']['name']) ?></td>
+                                            <?php
+                                                foreach(json_decode($Product['Product']['custom_fields'],true) as $customField=>$value){
+                                            ?>
+                                                <td class="text-center"><?= h($value['value']).' ('.h($value['type']).')'; ?></td>
+                                            <?php
+                                                }
+                                            ?>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>                                           
                     <div class="row">
                         <div class="contact-box-heading">

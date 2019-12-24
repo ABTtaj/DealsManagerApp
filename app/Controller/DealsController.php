@@ -19,7 +19,7 @@ class DealsController extends AppController
      *
      * @var array
      */
-    public $uses = array('Deal', 'Source', 'Contact', 'Product', 'User', 'AppFile', 'NoteDeal', 'Task', 'History', 'Pipeline', 'Stage', 'Timeline', 'LabelDeal', 'Discussion', 'UserDeal', 'SourceDeal', 'ProductDeal', 'ContactDeal', 'CustomDeal', 'Custom', 'Invoice', 'Label', 'Company', 'UserGroup');
+    public $uses = array('Deal','RelatedContact', 'Source', 'Contact', 'Product', 'User', 'AppFile','Call', 'NoteDeal', 'Task', 'History', 'Pipeline', 'Stage', 'Timeline', 'LabelDeal', 'Discussion', 'UserDeal', 'SourceDeal', 'ProductDeal', 'ContactDeal', 'CustomDeal', 'Custom', 'Invoice', 'Label', 'Company', 'UserGroup');
 
     /**
      * This controller uses following models
@@ -175,6 +175,8 @@ class DealsController extends AppController
     public function view($id = Null)
     {
         $userId = $this->Auth->user('id');
+        $userGId = $this->Auth->user('user_group_id');
+        $groupId = $this->Auth->user('group_id');
         $deal = $this->Deal->getDealForView($id);
         // check if deal exist
         if (!$deal) {
@@ -211,9 +213,16 @@ class DealsController extends AppController
         }
         $sources = $this->Source->getSourcesByDeal($id); //get assing sources to deal
         $contacts = $this->Contact->getContactsByDeal($id); //get assing contacts to deal
+        //get deals of each contact
+        $contacts = array_map(function($contact){
+            $contact['Deals'] = $this->Deal->getDealsByContact($contact['Contact']['id'], $userId, $userGId, $groupId);
+            $contact['RelatedContacts'] = $this->RelatedContact->getRelatedContactByContact($contact['Contact']['id']);
+            return $contact;
+        },$contacts);
         $products = $this->Product->getProductsByDeal($id);  //get assing products to deal
         $members = $this->User->getUsersByDeal($id);  //get assing users to deal
         $files = $this->AppFile->getFilesByDeal($id);  //get assing files to deal
+        $calls = $this->Call->getCallsByDeal($id);  //get assing call logs to deal
         $note = $this->NoteDeal->getNote($id, $userId);  //get assing notes to deal
         $tasks = $this->Task->getTasksByDeal($id);  //get assing tasks to deal
         $countActivity = $this->Timeline->getTimelineCount($id);  // count activity
@@ -266,7 +275,7 @@ class DealsController extends AppController
 
 
         //set variables to view
-        $this->set(compact('deal', 'sources', 'contacts', 'products', 'members', 'files', 'note', 'tasks', 'activity', 'labels', 'total_pages', 'custom', 'task_cal', 'company', 'groupMembers'));
+        $this->set(compact('deal', 'sources', 'contacts', 'products', 'members', 'files','calls','note', 'tasks', 'activity', 'labels', 'total_pages', 'custom', 'task_cal', 'company', 'groupMembers'));
     }
 
     /**

@@ -32,11 +32,11 @@ class Pipeline extends AppModel
      */
     public $validate = array(
         'name' => array(
-            'rule' => 'notempty',
+            'rule' => 'notblank',
             'required' => true,
         ),
         'color' => array(
-            'rule' => 'notempty',
+            'rule' => 'notblank',
             'required' => true
         )
     );

@@ -11,7 +11,7 @@
 ?>
 <div class="row">
     <!-- Add Category Modal --> 
-    <div class="modal fade" id="CategoryM">
+    <div class="modal fade" id="categoryM">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -21,6 +21,7 @@
                 <?php echo $this->Form->create('Category', array('type' => 'file', 'url' => array('controller' => 'Categories', 'action' => 'add'), 'inputDefaults' => array('label' => false, 'div' => false), 'class' => 'vForm')); ?>
                 <div class="modal-body">													
                     <div class="form-group">
+                        <label><?php echo __('Name'); ?></label>
                         <?php echo $this->Form->input('Category.name', array('type' => 'text', 'class' => 'form-control input-inline input-medium', 'Placeholder' => __('Category Name'))); ?>	
                     </div>
                 </div>

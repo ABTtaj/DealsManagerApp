@@ -10,6 +10,9 @@
 //load database tables
 App::import("Model", "User");
 App::import("Model", "Pipeline");
+App::import("Model", "Source");
+App::import("Model", "Category");
+App::import("Model", "Type");
 App::import("Model", "Milestone");
 App::import("Model", "PipelinePermission");
 
@@ -51,6 +54,39 @@ class CommonHelper extends AppHelper
             ));
         }
         return $PipelineList;
+    }
+
+    /**
+     *  This function is used to get category list
+     *
+     * @return array
+     */
+    public function getCategoriesList()
+    {
+        $CategoryModel = new Category();
+        return $CategoryModel->find('list', array('fields' => array('Category.id', 'Category.name'), 'order' => array('Category.id' => 'DESC')));
+    }
+
+    /**
+     *  This function is used to get type list
+     *
+     * @return array
+     */
+    public function getTypesList()
+    {
+        $typeModel = new Type();
+        return $typeModel->find('list', array('fields' => array('Type.id', 'Type.name'), 'order' => array('Type.id' => 'DESC')));
+    }
+
+    /**
+     *  This function is used to get type list
+     *
+     * @return array
+     */
+    public function getSourcesList()
+    {
+        $sourceModel = new Source();
+        return $sourceModel->find('list', array('fields' => array('Source.id', 'Source.name'), 'order' => array('Source.id' => 'DESC')));
     }
 
     /**

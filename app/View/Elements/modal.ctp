@@ -147,8 +147,6 @@
                 <label><?php echo __('Notes (Private)'); ?></label>
                 <?php echo $this->Form->input('Deal.notes', array('type' => 'textarea', 'rows' => '3', 'class' => 'form-control input-inline input-medium', 'row' => 3, 'label' => false, 'div' => false)); ?>	
             </div>
-
-
         </div>
         <!-- Deal Custom Field Tab -->
         <div id="tab-custom" class="tab-pane fade">

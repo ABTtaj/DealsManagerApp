@@ -53,7 +53,7 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#tab-contact"><?php echo __('Basic Details'); ?></a></li> 
                     <li><a data-toggle="tab" href="#tab-social"><?php echo __('Social'); ?></a></li>
-                    <li><a data-toggle="tab" href="#tab-custom"><?php echo __('Custom'); ?></a></li>
+                    <li><a data-toggle="tab" href="#tab-related-contact"><?php echo __('Related Contacts'); ?></a></li>
                 </ul>
                 <div class="tab-content">
                     <!-- contact details Tab -->
@@ -135,14 +135,21 @@
                                 <?php echo $this->Form->input('Custom.value' . h($row['Custom']['id']), array('type' => ($row['Custom']['type'] == '2') ? 'textarea' : 'text', 'class' => 'form-control input-inline input-medium', 'Placeholder' => '')); ?>	
                             </div>
                         <?php endforeach; ?>                      
-                    </div>        
+                    </div> 
+                    <!-- Related Contact Tab -->
+                    <div id="tab-related-contact" class="tab-pane fade">
+                        <label></label>
+                        <div class="form-group">
+                            <button class="btn btn-primary blue btn-sm" type="button" onclick="makeRelatedContactForm()"><i class="fa fa-plus"></i> <?php echo __('Add'); ?></button>
+                            <button class="btn btn-danger btn-sm" type="button" id="remove-related-contact-button" onclick="removeLastRelatedContactForm()"><i class="fa fa-minus"></i> <?php echo __('Remove last'); ?></button>		
+                        </div>
+                    </div>          
                 </div>
             </div>
             <div class="modal-footer">			
                 <button class="btn btn-primary blue btn-sm" type="submit"><i class="fa fa-check"></i> <?php echo __('Save'); ?></button>
                 <button class="btn default btn-sm" data-dismiss="modal" type="button"><i class="fa fa-times"></i> <?php echo __('Close'); ?></button>					
             </div>
-            <?php echo $this->Form->end(); ?>	
             <?php echo $this->Js->writeBuffer(); ?>
         </div>
     </div>
@@ -229,3 +236,128 @@
         <?php endif; ?>
     </div>
 </div>
+<script>
+    function makeFormGroup(){
+        var formGroup = document.createElement("div");
+        formGroup.classList.add('form-group');
+        return formGroup;
+    }
+    function createNameInput(number){
+        var formGroup = document.createElement("div");
+        var label = document.createElement("label");
+        var input = document.createElement("input");
+        formGroup.classList.add('form-group');
+        input.classList.add('form-control');
+        input.classList.add('input-inline');
+        input.classList.add('input-medium');
+        input.setAttribute('type','text');
+        input.setAttribute('required','true');
+        input.setAttribute('placeholder','<?=__('Name')?>');
+        input.setAttribute('name','data[RelatedContact][' + number + '][name]');
+        formGroup.appendChild(label);
+        formGroup.appendChild(input);
+        return formGroup
+    }
+    function createEmailInput(number){
+        var formGroup = document.createElement("div");
+        var inputGroup = document.createElement("div");
+        var span = document.createElement("span");
+        var icon = document.createElement('i');
+        var input = document.createElement("input");
+        formGroup.classList.add('form-group');
+        inputGroup.classList.add('input-group');
+        span.classList.add('input-group-addon');
+        icon.classList.add('fa');
+        icon.classList.add('fa-envelope');
+        input.classList.add('form-control');
+        input.classList.add('input-inline');
+        input.classList.add('input-medium');
+        input.setAttribute('type','email');
+        input.setAttribute('placeholder','<?=__('Email')?>');
+        input.setAttribute('name','data[RelatedContact][' + number + '][email]');
+        span.appendChild(icon);
+        inputGroup.appendChild(span);
+        inputGroup.appendChild(input);
+        formGroup.appendChild(inputGroup);
+        return formGroup;
+    }
+    function createPhoneInput(number){
+        var formGroup = document.createElement("div");
+        var inputGroup = document.createElement("div");
+        var span = document.createElement("span");
+        var icon = document.createElement('i');
+        var input = document.createElement("input");
+        formGroup.classList.add('form-group');
+        inputGroup.classList.add('input-group');
+        span.classList.add('input-group-addon');
+        icon.classList.add('fa');
+        icon.classList.add('fa-phone');
+        input.classList.add('form-control');
+        input.classList.add('input-inline');
+        input.classList.add('input-medium');
+        input.setAttribute('type','text');
+        input.setAttribute('placeholder','<?=__('Phone')?>');
+        input.setAttribute('name','data[RelatedContact][' + number + '][phone]');
+        span.appendChild(icon);
+        inputGroup.appendChild(span);
+        inputGroup.appendChild(input);
+        formGroup.appendChild(inputGroup);
+        return formGroup;
+    }
+    function createAdressInput(number){
+        var formGroup = document.createElement("div");
+        var textarea = document.createElement("textarea");
+        formGroup.classList.add('form-group');
+        textarea.classList.add('form-control');
+        textarea.classList.add('input-inline');
+        textarea.classList.add('input-medium');
+        textarea.setAttribute('placeholder','<?=__('Address')?>');
+        textarea.setAttribute('cols','30');
+        textarea.setAttribute('rows','6');
+        textarea.setAttribute('name','data[RelatedContact][' + number + '][address]');
+        formGroup.appendChild(textarea);
+        return formGroup;
+    }
+    function showRemoveButton(number){
+        if(number == 0){
+            $('#remove-related-contact-button').show();
+        }
+    }
+    function constructRelatedContactContainer(number){
+        var container = document.createElement("div");
+        var hr = document.createElement("hr");
+        container.classList.add('related-contact-form');
+        container.appendChild(createNameInput(number));
+        container.appendChild(createEmailInput(number));
+        container.appendChild(createPhoneInput(number));
+        container.appendChild(createAdressInput(number));
+        container.appendChild(hr);
+        return container;
+    }
+    function appendRelatedContactForm(container,number){
+        if(number != 0){
+            $('.related-contact-form:last').after(container);
+        } else {
+            $('#tab-related-contact').prepend(container);
+        }
+    }
+    function hideRemoveButton(){
+        var number = $('.related-contact-form').length;
+        if(number == 0){
+            $('#remove-related-contact-button').hide();
+        }
+    }
+    function makeRelatedContactForm(){
+        var number = $('.related-contact-form').length;
+        showRemoveButton(number);
+        var container = constructRelatedContactContainer(number);
+        appendRelatedContactForm(container,number);
+    }
+    function removeLastRelatedContactForm(){
+        $('.related-contact-form:last').remove();
+        hideRemoveButton();
+    }
+    $(document).ready(function(){
+        $('#remove-related-contact-button').hide();
+    });
+</script>
